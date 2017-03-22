@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">NetworkCommunication</string>
+    <string name="addsong_app_name">NetworkCommunication</string>
     <string name="search">Go!</string>
+    <string name="addsong">Add song</string>
+    <string name="addButton">Add</string>
+    <string name="addsongtitle">Add a new song!</string>
+    <string name="songadd">Song: </string>
+    <string name="artistadd">Artist: </string>
+    <string name="yearadd">Year: </string>
+
 </resources>

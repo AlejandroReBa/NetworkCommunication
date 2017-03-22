@@ -1,7 +1,11 @@
 package com.example.a3reyea63.networkcommunication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +67,53 @@ public class MainActivity extends Activity implements View.OnClickListener{
             TextView response = (TextView)findViewById(R.id.response);
             response.setText(result);
         }
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.addsong) {
+            //System.exit(0);
+            Intent intent = new Intent(this, AddSong.class);
+            //startActivity(intent);
+            startActivityForResult(intent, 0);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent intent)
+    {
+
+        /*
+        if(requestCode==0)
+        {
+
+            if (resultCode==RESULT_OK)
+            {
+                Bundle extras=intent.getExtras();
+                boolean cyclemap = extras.getBoolean("com.example.cyclemap");
+                if(cyclemap==true)
+                {
+                    mv.setTileSource(TileSourceFactory.CYCLEMAP);
+                }
+                else
+                {
+                    mv.setTileSource(TileSourceFactory.MAPNIK);
+                }
+            }
+        }
+        */
     }
 
 
