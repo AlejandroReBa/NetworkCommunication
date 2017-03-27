@@ -1,6 +1,7 @@
 package com.example.a3reyea63.networkcommunication;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +12,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.os.AsyncTask;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -33,18 +38,43 @@ public class MainActivity extends Activity implements View.OnClickListener{
             try
             {
                 //URL url = new URL("http://www.free-map.org.uk/course/mad/ws/hits.php?artist=Oasis");
-               String urlstring = "http://www.free-map.org.uk/course/mad/ws/hits.php?artist=" + artists[0];
+               String urlstring = "http://www.free-map.org.uk/course/mad/ws/hits.php?artist=" + artists[0] + "&format=json";
                URL url = new URL(urlstring.replace(" ", "%20"));
 
                 conn = (HttpURLConnection) url.openConnection();
                 InputStream in = conn.getInputStream();
                 if(conn.getResponseCode() == 200)
                 {
+                    /*
                     BufferedReader br = new BufferedReader(new InputStreamReader(in));
                     String result = "", line;
                     while((line = br.readLine()) !=null)
                         result += line + "\n";
                     return result;
+                    */
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    String result = "", line;
+                    while((line = br.readLine()) !=null)
+                        result += line;
+
+                    JSONArray jsonArr = new JSONArray (result);
+                    String song, artist, year, month, chart, ID, quantity;
+                    String displayedText = "";
+
+                    for (int i=0; i<jsonArr.length(); i++){
+                        JSONObject currentObject = jsonArr.getJSONObject(i);
+                        song = currentObject.getString("song");
+                        artist = currentObject.getString("artist");
+                        year = currentObject.getString("year");
+                        month = currentObject.getString("month");
+                        chart = currentObject.getString("chart");
+                        quantity = currentObject.getString("quantity");
+
+                        displayedText += "Song= "+ song + ", Artist= " + artist + ", Year= " + year + ", Month= " + month
+                                + ", Chart= " + chart + ", Quantity= " + quantity + "\n\n";
+                    }
+
+                    return displayedText;
                 }
                 else
                     return "HTTP ERROR: " + conn.getResponseCode();
@@ -53,6 +83,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             }
             catch(IOException e)
             {
+                return e.toString();
+            }
+            catch (JSONException e){
                 return e.toString();
             }
             finally
